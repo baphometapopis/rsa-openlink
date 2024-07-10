@@ -811,8 +811,8 @@ const formattedRegistrationNumber = registrationNumber.replace(/-/g, "");
         </div>
     </div>}
     <PaymentModal 
-    // visible={isModalVisible} 
-    visible={true} 
+    visible={isModalVisible} 
+    // visible={true} 
     
     data={paymentData} />
     <ErrorModal
