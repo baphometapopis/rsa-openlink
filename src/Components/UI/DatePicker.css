@@ -1,0 +1,26 @@
+/* DateSelector.css */
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.date-input {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.date-input.error {
+  border-color: red;
+}
+
+.date-input.isDisabled {
+  background-color: #e9ecef;
+}
+
+.error-message {
+  color: red;
+  font-size: 12px;
+}

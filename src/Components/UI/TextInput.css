@@ -1,0 +1,52 @@
+/* TextInput.css */
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px; /* Adjust as needed */
+    width: fit-content;
+  }
+  
+  label {
+    margin-bottom: 5px; /* Adjust as needed */
+    font-weight: 400;
+  }
+  
+  .form-group >input {
+    max-width: 450px;
+    padding: 16px;
+    border: 1px solid rgba(29, 27, 32, 0.25);
+    border-radius: 4px;
+    transition: border-color 0.3s ease;
+
+  }
+  .isDisabled{
+    cursor: not-allowed;
+  }
+
+  .estimationinput {
+    width: 150px;
+    max-width: 250px;
+    padding: 16px;
+    border: 1px solid rgba(29, 27, 32, 0.25);
+    border-radius: 4px;
+    transition: border-color 0.3s ease;
+    box-shadow: inset 0 0 3px rgba(74, 79, 196, 0.25);
+
+  }
+  .estimationform-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0px; /* Adjust as needed */
+    width: fit-content;
+  }
+  
+  input.error {
+    border-color: red;
+  }
+  
+  .error-message {
+    color: red;
+    margin-top: 5px; /* Adjust as needed */
+  }
+  

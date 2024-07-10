@@ -1,0 +1,98 @@
+.plans-container {
+  max-width: 80%;
+  margin: 0 auto;
+  padding: 20px;
+  max-height: 80%;
+  overflow-x: scroll;
+}
+.plans-container::-webkit-scrollbar {
+  display: none;
+}
+
+
+.plan-item {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 25px;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+  transition: transform 0.3s ease; /* Ensure transition is applied */
+  opacity: 0; /* Start invisible */
+  animation: fallIn 0.5s forwards; /* Apply the fall-in animation */
+}
+
+/* Keyframe for the fall-in effect */
+@keyframes fallIn {
+  0% {
+    transform: translateY(-50px); /* Start above */
+    opacity: 0; /* Start invisible */
+  }
+  100% {
+    transform: translateY(0); /* End at original position */
+    opacity: 1; /* End fully visible */
+  }
+}
+
+.plan-item:nth-child(1) {
+  animation-delay: 0.7s;
+}
+.plan-item:nth-child(2) {
+  animation-delay: 0.5s;
+}
+.plan-item:nth-child(3) {
+  animation-delay: 0.3s;
+}
+.plan-item:nth-child(4) {
+  animation-delay: 0.1s;
+}
+/* Add more delays for more items as needed */
+
+.plan-item:hover {
+  transform: scale(1.1);
+}
+
+.plan-info {
+  flex: 1;
+}
+
+.plan-item h3 {
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+.plan-item p {
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.buy-button {
+  background-color: orange;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .plan-item {
+    flex-direction: column;
+    align-items: flex-start;
+    height: auto; /* Adjust height to fit content */
+  }
+
+  .plan-info {
+    margin-bottom: 15px; /* Add margin between content and button */
+  }
+
+  .buy-button {
+    align-self: stretch; /* Make button take full width */
+    text-align: center;
+  }
+}
