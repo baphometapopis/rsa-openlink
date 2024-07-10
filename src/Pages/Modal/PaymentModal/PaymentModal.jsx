@@ -41,7 +41,7 @@ const PaymentModal = ({ visible, onClose, data }) => {
   return (
     <Modal
       visible={visible}
-      onCancel={onClose}
+      // onCancel={onClose}
       footer={null}
       title="Payment"
     >
@@ -61,11 +61,11 @@ const PaymentModal = ({ visible, onClose, data }) => {
         {image && (
           <img src={`data:image/png;base64,${image}`} alt="QR Code" style={{width:'100%'}}/>
         )}
-  <p style={{backgroundColor:'red',textAlign:'center',padding:'10px',borderRadius:'10px',color:'white',cursor:'pointer'}} onClick={openUpiApp}> Pay Using UPI APP </p>
+  <p className='upi-button' onClick={openUpiApp}> Pay Using UPI APP </p>
 
         <p><strong>Time Left:</strong> {formatTime(timeLeft)}</p>
       </div>
-      <Button onClick={onClose}>Close</Button>
+      {/* <Button onClick={onClose}>Close</Button> */}
     </Modal>
   );
 };

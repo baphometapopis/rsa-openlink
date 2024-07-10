@@ -363,6 +363,8 @@ const res = await makeApiCall(Api_Endpoints?.BuyPolicy,'POST',{plan:selectedPlan
       // navigate('Verify-Human')
       }
       
+    }else{
+      showErrorToast('Fill Mandatory Fields')
     }
 
 

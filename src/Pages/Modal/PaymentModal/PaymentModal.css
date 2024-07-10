@@ -13,8 +13,11 @@
     margin: 0 auto;
     display: block;
   }
-  
+  /* {backgroundColor:'red',textAlign:'center',padding:'10px',borderRadius:'10px',color:'white',cursor:'pointer'
+   */
   .upi-button {
+    display: none;
+
     background-color: red;
     text-align: center;
     padding: 10px;
@@ -34,6 +37,9 @@
   }
   
   @media (max-width: 600px) {
+    .upi-button{
+        display: block;
+    }
     .payment-modal {
       width: 100% !important;
       padding: 20px;

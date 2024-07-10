@@ -149,7 +149,7 @@ useEffect(()=>{loadCaptchaEnginge(6)},[])
                 key={index}
 
                 ref={(el) => (inputRefs.current[index] = el)}
-                type="number"
+                type="tel"
                 className={`otp-input ${otp.length > 0 ? 'filled' : ''}`}
                 value={otp}
                 onChange={(e) => handleOtpChange(index, e.target.value)}
