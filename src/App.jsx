@@ -13,7 +13,7 @@ import {showSuccessToast,showErrorToast} from './Services/ToastServices/toastSer
 import VerifyHuman from './Pages/VerifyHuman/VerifyHuman'
 import {getUserSession, setFormDatatoLocal, setUserSession} from './Utils/localStorage'
 import useIsMainWindow from './Utils/useIsMainWindow'
-import PaymentModal from './Pages/Modal/PaymentModal'
+import PaymentModal from './Pages/Modal/PaymentModal/PaymentModal'
 import { convertDateFormat } from './Utils/ConvertDateFormat'
 import ErrorModal from './Pages/Modal/ErrorModal'
 

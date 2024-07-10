@@ -44,6 +44,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
+  margin-top: 10px;
 }
 
 .otp-input {
@@ -92,22 +94,53 @@
 /* Mobile responsiveness */
 @media (max-width: 768px) {
   .verify-container {
-      width: 95%;
-      margin-top: 20px;
+    width: 95%;
+    margin-top: 20px;
   }
 
   .captcha-input {
-      width: 90%;
+    width: 90%;
   }
 
   .otp-input {
-      width: 35px;
-      height: 35px;
-      font-size: 18px;
+    width: 35px;
+    height: 35px;
+    font-size: 18px;
   }
 
   .submit-button {
-      padding: 8px 16px;
-      font-size: 16px;
+    padding: 8px 16px;
+    font-size: 16px;
+  }
+}
+
+/* Very small screen adjustments */
+@media (max-width: 480px) {
+  .verify-container {
+    width: 100%;
+    margin: 10px auto;
+  }
+
+  .captcha-input {
+    width: 100%;
+    font-size: 18px;
+    padding: 10px;
+  }
+
+  .otp-input {
+    width: 30px;
+    height: 30px;
+    font-size: 16px;
+    margin: 5px;
+  }
+
+  .submit-button {
+    padding: 6px 12px;
+    font-size: 14px;
+    margin-top: 8px;
+  }
+
+  .otp-timer {
+    font-size: 14px;
   }
 }

@@ -81,6 +81,9 @@
 
 /* Mobile responsiveness */
 @media (max-width: 768px) {
+  .plans-container {
+    max-width: 100%;
+  }
   .plan-item {
     flex-direction: column;
     align-items: flex-start;

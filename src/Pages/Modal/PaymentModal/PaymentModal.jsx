@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, Button } from 'antd';
-
+import './PaymentModal.css'
 const PaymentModal = ({ visible, onClose, data }) => {
   const [timeLeft, setTimeLeft] = useState(300); // 5 minutes = 300 seconds
  let  upiLink='upi://pay?pa=paytm-49581899@paytm&pn=INDICOSMIC%20CAPITAL%20PVT%20LTD&mc=7549&tid=121313202101345671229366&tr=TVS00012146756408&am=1.00&cu=INR&mode=00&purpose=00'
@@ -59,7 +59,7 @@ const PaymentModal = ({ visible, onClose, data }) => {
           <p><strong>UPI Link:</strong> <a href={qrData} target="_blank" rel="noopener noreferrer">{qrData}</a></p>
         )} */}
         {image && (
-          <img src={`data:image/png;base64,${image}`} alt="QR Code" />
+          <img src={`data:image/png;base64,${image}`} alt="QR Code" style={{width:'100%'}}/>
         )}
   <p style={{backgroundColor:'red',textAlign:'center',padding:'10px',borderRadius:'10px',color:'white',cursor:'pointer'}} onClick={openUpiApp}> Pay Using UPI APP </p>
 

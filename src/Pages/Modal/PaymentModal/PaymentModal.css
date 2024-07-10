@@ -1,0 +1,59 @@
+.payment-modal {
+    width: 90% !important;
+    max-width: 500px;
+  }
+  
+  .payment-content {
+    text-align: center;
+  }
+  
+  .qr-image {
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+    display: block;
+  }
+  
+  .upi-button {
+    background-color: red;
+    text-align: center;
+    padding: 10px;
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+  
+  .time-left {
+    margin-top: 20px;
+    font-size: 16px;
+  }
+  
+  .close-button {
+    width: 100%;
+  }
+  
+  @media (max-width: 600px) {
+    .payment-modal {
+      width: 100% !important;
+      padding: 20px;
+    }
+  
+    .qr-image {
+      max-width: 100%;
+    }
+  
+    .upi-button {
+      padding: 15px;
+      font-size: 18px;
+    }
+  
+    .time-left {
+      font-size: 18px;
+    }
+  
+    .close-button {
+      font-size: 18px;
+    }
+  }
+  
