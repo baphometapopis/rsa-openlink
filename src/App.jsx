@@ -1,5 +1,5 @@
 import './App.css'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useState } from 'react'
 import TextInput from './Components/UI/TextInput'
 import moment from 'moment'
@@ -16,12 +16,13 @@ import useIsMainWindow from './Utils/useIsMainWindow'
 import PaymentModal from './Pages/Modal/PaymentModal/PaymentModal'
 import { convertDateFormat } from './Utils/ConvertDateFormat'
 import ErrorModal from './Pages/Modal/ErrorModal'
+import { decryptAESCBC256 } from './Utils/encryption'
 
 function App() {
   const params = useParams()
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
   const [error, setError] = useState(null);
-
+  const location= useLocation()
   const navigate = useNavigate()
   const [selectedVehicleOption, setselectedVehicleOption] = useState()
   const [salutation, setsalutation] = useState([])
@@ -343,10 +344,13 @@ setisBHSeries(!isBHSeries)
 
   const handleSubmit = async(e) => {
     e.preventDefault()
+//    const data =  decryptAESCBC256('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')
+// console.log(data,'lkhjgfxdghjkl')
     if (validateForm()) {
       // Add your handleSubmit logic here
+      console.log(formData?.model_id)
       if(selectedPlan){
-const res = await makeApiCall(Api_Endpoints?.BuyPolicy,'POST',{plan:selectedPlan?.id,dealer_code:params?.dealer_id,policy_type:params?.service,...formData})
+const res = await makeApiCall(Api_Endpoints?.BuyPolicy,'POST',{plan:selectedPlan?.id,dealer_code:11111,policy_type:'service',...formData})
         if(res?.status){
           const paymentData = JSON.parse(res?.data);
           // console.log(paymentData)
@@ -359,9 +363,13 @@ const res = await makeApiCall(Api_Endpoints?.BuyPolicy,'POST',{plan:selectedPlan
         }
       }else{
       setFormDatatoLocal(formData)
-      setshowVerificationBox(true)
-      // navigate('Verify-Human')
-      }
+          const planres = await makeApiCall(Api_Endpoints?.GetplanDataBymodel, 'POST', {
+          dealer_code: 11111,
+          policy_type: 'service',
+          model_id: formData?.model_id
+        });
+            navigate('/PlansSelection', { state: { plansData: planres?.plan_array } });
+    }
       
     }else{
       showErrorToast('Fill Mandatory Fields')
@@ -370,10 +378,11 @@ const res = await makeApiCall(Api_Endpoints?.BuyPolicy,'POST',{plan:selectedPlan
 
   }
   const getVehicleDetails = async()=>{
-    const res = await makeApiCall(Api_Endpoints?.getDataByChassisNumber,'POST',{vehicle_detail:params?.engine_no,policy_type:params?.service})
-    if(res?.status){
-      showSuccessToast(res?.message)
-      let VehicleData = res?.policy_data
+    // const res = await makeApiCall(Api_Endpoints?.getDataByChassisNumber,'POST',{vehicle_detail:params?.engine_no,policy_type:params?.service})
+    if(true){
+      // showSuccessToast(res?.message)
+      let VehicleData = location?.state?.policy_data
+      console.log(VehicleData.state,'???????????')
       const registrationNumber = VehicleData?.registration_no??'';
 const formattedRegistrationNumber = registrationNumber.replace(/-/g, "");
       setFormData({
@@ -409,8 +418,8 @@ const formattedRegistrationNumber = registrationNumber.replace(/-/g, "");
       });
 
     }else{
-      showError(res?.message)
-      showErrorToast(res?.message)
+      // showError(res?.message)
+      // showErrorToast(res?.message)
     }
   }
   const fetchPincode =async(pincode)=>{
@@ -444,7 +453,7 @@ const formattedRegistrationNumber = registrationNumber.replace(/-/g, "");
   }
 
   const getDropDownData =async()=>{
-    const res = await makeApiCall(Api_Endpoints?.getDropDownData,'POST',{policy_type:params?.service})
+    const res = await makeApiCall(Api_Endpoints?.getDropDownData,'POST',{policy_type:'service'})
     if(res?.status){
       setmodalArr(res?.model_array);
       setsalutation(res?.salutation_master)
@@ -461,22 +470,21 @@ const formattedRegistrationNumber = registrationNumber.replace(/-/g, "");
   useEffect(()=>{
     const data = getUserSession()
 
-
-    console.log(data)
+    getVehicleDetails()
+    getDropDownData()
 
 
     if(params?.engine_no)
     {
 
       getVehicleDetails()
-      getDropDownData()
     }
 
-    if(data?.formData?.engine_no===params?.engine_no){
-      setFormData(data?.formData)
-    }else{
-      setUserSession(params)
-    }
+    // if(data?.formData?.engine_no===params?.engine_no){
+    //   setFormData(data?.formData)
+    // }else{
+    //   setUserSession(params)
+    // }
 
     if(data?.formData?.selectedPlan){
       setSelectedPlan(data?.formData?.selectedPlan)
@@ -790,11 +798,11 @@ const formattedRegistrationNumber = registrationNumber.replace(/-/g, "");
             </>}
             <div></div>
           </div>
-    {showVerificationBox &&  <VerifyHuman modelID={formData?.model_id} params={params}/>}
+    {/* {showVerificationBox &&  <VerifyHuman modelID={formData?.model_id} params={params}/>} */}
 
-         {!showVerificationBox&& <div className="form-actions">
+        <div className="form-actions">
             <button type="submit" className="submit-button">{selectedPlan?'Generate Policy':'Submit'}</button>
-          </div>}
+          </div>
 
         </form>
       </div>

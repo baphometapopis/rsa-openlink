@@ -1,10 +1,12 @@
 import Banner from '../assets/img/coverImage3.png'
-// import Banner from '../assets/img/banner_1.jpg'
+import IconSearch from '../assets/Icons/IconSearch.png'
+import MobileNo from '../assets/Icons/mobileNo.png'
 
 
 
 
 
-export {
-    Banner
+export {MobileNo,
+    Banner,
+    IconSearch
 }

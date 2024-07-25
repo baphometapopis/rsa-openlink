@@ -6,16 +6,24 @@ import App from './App.jsx';
 import VerifyHuman from './Pages/VerifyHuman/VerifyHuman';
 import { Plans } from './Pages/Plans/Plans';
 import {NotFoundPage} from './Pages/NotFoundPage/NotFoundPage'
+import HomePage from './Pages/HomePage/HomePage'
+
 
 import './index.css';
 
 const router = createBrowserRouter([
   {
-    path: '/Generate-Policy/:service/:engine_no/:dealer_id',
+    path: '/',
     element: <AppLayout />,
     children: [
       {
-        path: '/Generate-Policy/:service/:engine_no/:dealer_id',
+        path: '/',
+        element: <HomePage />
+      },
+      {
+        // path: '/Generate-Policy/:service/:engine_no/:dealer_id',
+        path: '/Generate-Policy',
+
         element: <App />
       },
       {
@@ -23,7 +31,9 @@ const router = createBrowserRouter([
         element: <VerifyHuman />
       },
       {
-        path: '/Generate-Policy/:service/:engine_no/:dealer_id/PlansSelection',
+        // path: '/Generate-Policy/:service/:engine_no/:dealer_id/PlansSelection',
+        path: '/PlansSelection',
+
         element: <Plans />
       },
       {

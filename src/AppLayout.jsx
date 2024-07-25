@@ -8,6 +8,7 @@ import { Header } from './Components/Header/Header';
 import { Banner } from './Constant/imageConstant';
 import store from './Pages/Redux/store';
 const AppLayout = () => {
+  const location = useLocation()
   return (
     <Provider store={store}>
     <div style={{height:'100vh',width:'100vw'}}>

@@ -57,16 +57,26 @@
 
 .plan-info {
   flex: 1;
+  text-align: center;
+  width: 100%;
 }
+
 
 .plan-item h3 {
   font-size: 18px;
   margin-bottom: 5px;
+  width: 250px;
 }
 
 .plan-item p {
   font-size: 16px;
   margin-bottom: 8px;
+  width: 250px;
+
+}
+
+.plan-details>p{
+  width: 100%;
 }
 
 .buy-button {
@@ -100,4 +110,16 @@
     align-self: stretch; /* Make button take full width */
     text-align: center;
   }
+}
+
+.details-toggle {
+  cursor: pointer;
+  color: #007bff;
+  font-size: 14px;
+  margin-top: 10px;
+
+}
+
+.plan-details>p{
+  color: #183882;
 }
