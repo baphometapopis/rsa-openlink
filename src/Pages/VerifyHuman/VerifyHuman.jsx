@@ -14,7 +14,7 @@ const VerifyHuman = ({ modelID, params }) => {
   const [otpInputs, setOtpInputs] = useState(['', '', '', '', '', '']);
   const [isOtpSent, setIsOtpSent] = useState(false);
   const [isOtpValid, setIsOtpValid] = useState(false);
-  const [timer, setTimer] = useState(60);
+  const [timer, setTimer] = useState(300);
   const [phoneNumber, setPhoneNumber] = useState(null);
   const [chassisNumber, setChassisNumber] = useState('');
   const [PolicyData,setPolicydata]=useState('')
