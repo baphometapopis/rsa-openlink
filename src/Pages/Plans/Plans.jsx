@@ -10,6 +10,7 @@ export const Plans = () => {
   const [visibleDetails, setVisibleDetails] = useState({});
 
   const handleBuyClick = (plan) => {
+    console.log(plan)
     setAddPlan(plan);
     navigate(-1);
   };
@@ -38,7 +39,7 @@ export const Plans = () => {
             <div className="plan-details">
               <p><strong>Plan Code:</strong> {plan.plan_code}</p>
               <p><strong>KM Covered:</strong> {plan.km_covered} km</p>
-              <p><strong>Commission:</strong> Dealer - ₹{plan.dealer_commission}, RSA - ₹{plan.rsa_commission_amount}</p>
+              {/* <p><strong>Commission:</strong> Dealer - ₹{plan.dealer_commission}, RSA - ₹{plan.rsa_commission_amount}</p> */}
               <p><strong>Sum Insured:</strong> ₹{plan.sum_insured}</p>
               <p><strong>Tenure:</strong> {plan.rsa_tenure} year(s)</p>
               {/* Add any other details you want to show here */}

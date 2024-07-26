@@ -68,6 +68,7 @@ function App() {
   const [formErrors, setformErrors] = useState({})
 
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [visibleDetails, setVisibleDetails] = useState({});
 
 const [paymentData,setPaymentData]=useState('')
 const showError = (error) => {
@@ -422,6 +423,10 @@ const formattedRegistrationNumber = registrationNumber.replace(/-/g, "");
       // showErrorToast(res?.message)
     }
   }
+  const toggleDetails = (id) => {
+    setVisibleDetails(prev => ({ ...prev, [id]: !prev[id] }));
+  };
+
   const fetchPincode =async(pincode)=>{
     const res = await makeApiCall(Api_Endpoints?.GetPincodeData,'GET',{pincode:pincode})
     if(res?.status){
@@ -469,7 +474,7 @@ const formattedRegistrationNumber = registrationNumber.replace(/-/g, "");
 
   useEffect(()=>{
     const data = getUserSession()
-
+console.log(data)
     getVehicleDetails()
     getDropDownData()
 
@@ -815,8 +820,24 @@ const formattedRegistrationNumber = registrationNumber.replace(/-/g, "");
               {selectedPlan.plan_name}
             </h3>
             <p style={{color:'#0089D2',fontSize:'24px',fontWeight:'bold',textAlign:'center',width:'250px',margin:'15px'}}>
-              ₹ {selectedPlan.plan_amount + selectedPlan.gst_amount}/<span style={{fontSize:'16px',fontWeight:'bold'}}>year</span>
+              ₹ {parseFloat(selectedPlan.plan_amount) + parseFloat(selectedPlan.gst_amount)}/<span style={{fontSize:'16px',fontWeight:'bold'}}>year</span>
             </p>
+
+            <div className="details-toggle" onClick={() => toggleDetails(selectedPlan.id)}>
+              <span>{visibleDetails[selectedPlan.id] ? 'Hide Package Details ▲' : 'Show Package Details ▼'}</span>
+              <div style={{textAlign:'left',marginTop:'15px'}}>
+              {visibleDetails[selectedPlan.id] && (
+            <div className="plan-details">
+              <p><strong>Plan Code:</strong> {selectedPlan.plan_code}</p>
+              <p><strong>KM Covered:</strong> {selectedPlan.km_covered} km</p>
+              {/* <p><strong>Commission:</strong> Dealer - ₹{plan.dealer_commission}, RSA - ₹{plan.rsa_commission_amount}</p> */}
+              <p><strong>Sum Insured:</strong> ₹{selectedPlan.sum_insured}</p>
+              <p><strong>Tenure:</strong> {selectedPlan.rsa_tenure} year(s)</p>
+              {/* Add any other details you want to show here */}
+            </div>
+          )}
+          </div>
+            </div>
           </div>
         </div>
     </div>}

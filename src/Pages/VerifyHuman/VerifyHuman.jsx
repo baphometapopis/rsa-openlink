@@ -157,7 +157,10 @@ console.log(updatedData.formData.policy_data.mobile_no)
     const res = getUserSession()
     console.log(res,'asdasdasdasdasdasdasdadad')
     setPolicydata(res)
-    setPhoneNumber(res?.formData?.policy_data?.mobile_no)
+    if(res?.formData?.policy_data?.mobile_no!==''){
+    setPhoneNumber(res?.formData?.policy_data?.mobile_no)}else{
+      showErrorToast('Mobile Number not Found')
+    }
     setTimer(60)
     setIsOtpSent(true);
 
