@@ -104,7 +104,7 @@ const VerifyHuman = ({ modelID, params }) => {
   const resendOtp = () => {
 
     setIsOtpSent(true);
-    setTimer(60);
+    setTimer(300);
     setOtpInputs(['', '', '', '', '', '']);
     inputRefs.current[0].focus();
     
@@ -161,7 +161,7 @@ console.log(updatedData.formData.policy_data.mobile_no)
     setPhoneNumber(res?.formData?.policy_data?.mobile_no)}else{
       showErrorToast('Mobile Number not Found')
     }
-    setTimer(60)
+    setTimer(300)
     setIsOtpSent(true);
 
 
