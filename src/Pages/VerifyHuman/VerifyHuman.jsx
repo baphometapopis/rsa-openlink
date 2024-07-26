@@ -169,7 +169,12 @@ console.log(updatedData.formData.policy_data.mobile_no)
 
   useEffect(()=>{
    
+    // loadCaptchaEnginge(6)
 },[ShowMobileOTP,maskedPhoneNumber])
+useEffect(()=>{
+  loadCaptchaEnginge(6)
+
+},[])
 
     useEffect(()=>{setPolicydata(params)},[])
   return (
@@ -177,7 +182,7 @@ console.log(updatedData.formData.policy_data.mobile_no)
       <div className='verifyHeader'>
         <p style={{ fontSize: '24px', fontWeight: '400' }}>Verification</p>
       </div>
-      {false ? (
+      {!isCaptchaVerified ? (
         <div className="captcha-container">
           <LoadCanvasTemplate />
           <input
