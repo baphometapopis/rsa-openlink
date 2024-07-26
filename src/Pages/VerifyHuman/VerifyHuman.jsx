@@ -158,9 +158,16 @@ console.log(updatedData.formData.policy_data.mobile_no)
     console.log(res,'asdasdasdasdasdasdasdadad')
     setPolicydata(res)
     setPhoneNumber(res?.formData?.policy_data?.mobile_no)
-   
+    setTimer(60)
+    setIsOtpSent(true);
+
 
   },[])
+
+  useEffect(()=>{
+   
+},[ShowMobileOTP,maskedPhoneNumber])
+
     useEffect(()=>{setPolicydata(params)},[])
   return (
     <div className="verify-container">
@@ -183,7 +190,7 @@ console.log(updatedData.formData.policy_data.mobile_no)
         <div>
           {maskedPhoneNumber || ShowMobileOTP ? (
             <div>
-              <p style={{color:'#183882'}}>{maskedPhoneNumber}</p>
+              <p style={{color:'#183882',textAlign:'center',margin:'10px',fontSize:'18px'}}>OTP has been sent to the Registered  Number {maskedPhoneNumber}</p>
               <div className="otp-inputs">
                 {otpInputs.map((otp, index) => (
                   <input
@@ -220,7 +227,17 @@ console.log(updatedData.formData.policy_data.mobile_no)
               <input
                 type="text"
                 value={chassisNumber}
-                onChange={(e) => setChassisNumber(e.target.value)}
+                onChange={(e) =>{
+                  let value = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+    // Limit the length of the chassis number
+    if (value.length <= 17) {
+
+      setChassisNumber(value);
+    }
+                }
+                  
+                  
+                 }
                 placeholder="Enter Chassis Number"
                 className="chassis-input"
               />
@@ -229,13 +246,22 @@ console.log(updatedData.formData.policy_data.mobile_no)
               {isChassisVerified && (
             <div style={{display:'flex',justifyContent:'center',flexDirection:'column',alignItems:'center',padding:'10px'}}>
             <p style={{textAlign:'center'}}>Please enter your new mobile number:</p>
-                  <input
-                    type="tel"
-                    value={newMobileNumber}
-                    onChange={(e) => setNewMobileNumber(e.target.value)}
-                    placeholder="Enter Mobile Number"
-                    className="chassis-input"
-                  />
+                    <input
+                      type="tel"
+                      value={newMobileNumber}
+                      onChange={(e) => {
+                        
+                        let value = e.target.value.replace(/[^0-9]/g, '');
+    
+                        // Limit the length of the mobile number
+                        if (value.length <= 10) {
+                          setNewMobileNumber(value);
+                        }
+                    
+                       }}
+                      placeholder="Enter Mobile Number"
+                      className="chassis-input"
+                    />
                   <button onClick={updateMobileNo} className="submit-button">Send OTP</button>
                 </div>
               )}
