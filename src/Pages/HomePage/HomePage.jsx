@@ -399,6 +399,7 @@ const [showLoader,setShowLoader] = useState(false)
         </div>
       </div>
    {showLoader&&   <FullPageLoader/>}
+   
     </div>
   );
 };
