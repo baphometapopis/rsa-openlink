@@ -12,26 +12,26 @@ import './index.css';
 
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: 'tvs-rsa/',
     element: <AppLayout />,
     children: [
       {
-        path: '/',
+        path: 'tvs-rsa/',
         element: <HomePage />
       },
       {
         // path: '/Generate-Policy/:service/:engine_no/:dealer_id',
-        path: '/Generate-Policy',
+        path: 'tvs-rsa/Generate-Policy',
 
         element: <App />
       },
       {
-        path: '/Generate-Policy/:service/:engine_no/:dealer_id/Verify-Human',
+        path: 'tvs-rsa/Generate-Policy/:service/:engine_no/:dealer_id/Verify-Human',
         element: <VerifyHuman />
       },
       {
         // path: '/Generate-Policy/:service/:engine_no/:dealer_id/PlansSelection',
-        path: '/PlansSelection',
+        path: 'tvs-rsa/PlansSelection',
 
         element: <Plans />
       },
