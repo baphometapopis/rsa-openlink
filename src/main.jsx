@@ -1,12 +1,11 @@
-import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import AppLayout from './AppLayout';
+import AppLayout from './AppLayout.jsx';
 import App from './App.jsx';
-import VerifyHuman from './Pages/VerifyHuman/VerifyHuman';
-import { Plans } from './Pages/Plans/Plans';
-import {NotFoundPage} from './Pages/NotFoundPage/NotFoundPage'
-import HomePage from './Pages/HomePage/HomePage'
+import VerifyHuman from './Pages/VerifyHuman/VerifyHuman.jsx';
+import { Plans } from './Pages/Plans/Plans.jsx';
+import {NotFoundPage} from './Pages/NotFoundPage/NotFoundPage.jsx'
+import HomePage from './Pages/HomePage/HomePage.jsx'
 
 
 import './index.css';

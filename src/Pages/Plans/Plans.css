@@ -11,20 +11,31 @@
 
 
 .plan-item {
-  background-color: #ffffff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
+  background-color: var(--label-button);
+  overflow: hidden;
   margin-bottom: 25px;
-  padding: 20px;
+  /* padding: 20px; */
+  height: 59px;
   display: flex;
   justify-content: space-between; 
   align-items: center;
-  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
-  transition: transform 0.3s ease; /* Ensure transition is applied */
-  opacity: 0; /* Start invisible */
-  animation: fallIn 0.5s forwards; /* Apply the fall-in animation */
+
+
 }
 
+
+.planContainer{
+  border-radius: 4px;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  opacity: 0;
+  transition: transform 0.3s ease;
+  animation: fallIn 0.5s forwards;
+  margin-bottom: 20px;
+  width: 800px;
+  margin: 0 auto;
+  margin-bottom: 20px;
+}
 /* Keyframe for the fall-in effect */
 @keyframes fallIn {
   0% {
@@ -37,22 +48,22 @@
   }
 }
 
-.plan-item:nth-child(1) {
+.planContainer:nth-child(1) {
   animation-delay: 0.7s;
 }
-.plan-item:nth-child(2) {
+.planContainer:nth-child(2) {
   animation-delay: 0.5s;
 }
-.plan-item:nth-child(3) {
+.planContainer:nth-child(3) {
   animation-delay: 0.3s;
 }
-.plan-item:nth-child(4) {
+.planContainer:nth-child(4) {
   animation-delay: 0.1s;
 }
 /* Add more delays for more items as needed */
 
 .plan-item:hover {
-  transform: scale(1.1);
+  /* transform: scale(1.1); */
 }
 
 .plan-info {
@@ -77,6 +88,7 @@
 
 .plan-details>p{
   width: 100%;
+
 }
 
 .buy-button {
@@ -90,27 +102,6 @@
 }
 
 /* Mobile responsiveness */
-@media (max-width: 768px) {
-  .plans-container {
-    max-width: 100%;
-  padding-bottom: 45px;
-
-  }
-  .plan-item {
-    flex-direction: column;
-    align-items: flex-start;
-    height: auto; /* Adjust height to fit content */
-  }
-
-  .plan-info {
-    margin-bottom: 15px; /* Add margin between content and button */
-  }
-
-  .buy-button {
-    align-self: stretch; /* Make button take full width */
-    text-align: center;
-  }
-}
 
 .details-toggle {
   cursor: pointer;
@@ -119,7 +110,202 @@
   margin-top: 10px;
 
 }
+.plan-details{
+  display: flex;
+  padding: 20px;
+}
 
 .plan-details>p{
   color: #183882;
 }
+
+.plan-header{
+  height: 59px;
+  display: flex; 
+   overflow: hidden;
+}
+.planheaderpart1{
+  background-color: #BDDBFC;
+  width: 65%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top-left-radius: 4px;
+
+}
+.planheaderpart2{
+  border-top-right-radius: 4px;
+  background-color:var(--label-button);
+  width: 35%;
+  position: relative;
+
+
+}
+
+.planHeaderpart2triangle{ 
+  width: 0;
+  height: 0;
+  border-left: 50px solid transparent;
+  border-right: 50px solid transparent;
+  border-bottom: 100px solid var(--label-button);
+  position: absolute;
+  transform: rotate(265deg);
+  bottom: -34px;
+  left: -77px;
+  z-index: 1;
+}
+.planHeaderpart2triangle2{ 
+  /* width: 0;
+  height: 0;
+  border-left: 50px solid transparent;
+  border-right: 50px solid transparent;
+  border-bottom: 100px solid #66AEFF;
+  position: absolute;
+  transform: rotate(265deg);
+  bottom: -34px;
+  left: -120px;
+ */
+
+ width: 0;
+ height: 0;
+ border-left: 67px solid transparent;
+ border-right: 46px solid transparent;
+ border-bottom: 116px solid #66AEFF;
+ position: absolute;
+ transform: rotate(259deg);
+ bottom: -57px;
+ left: -106px;
+}
+.plantitle{
+  color: var(--label-button);
+  font-weight: bolder;
+  font-size: 18px;
+}
+.planamount{
+  color: var(--label-button);
+  z-index: 110;
+  position: absolute;
+  top: 16px;
+  /* transform: translate(82%, 42%); */
+  background: #BDDBFC;
+  padding: 5px;
+  right: 51px;
+  border-radius: 2px;
+  cursor:pointer
+
+}
+
+/* @media (max-width: 1178px) {
+} */
+
+
+@media (max-width: 1178px) {
+  .plans-container {
+    max-width: 100%;
+  padding-bottom: 45px;
+
+
+  }
+  .plan-header{
+    flex-direction: column;
+    padding: auto;
+    height: 100px;
+    overflow: visible;
+  }
+  .planheaderpart1{
+    width: 100%;
+  }
+  .planheaderpart2{
+    /* display: none; */
+    width: 100%;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .plantitle{
+    padding: 5px;
+
+    text-align: center;
+    width: 80%;
+  }
+  .planHeaderpart2triangle{
+    /* display: none; */
+    left: 0px;
+    top:-1px;
+    transform: rotate(180deg);
+    border-left: var(--container-width) solid transparent;
+    border-right: var(--container-width) solid transparent;
+    border-bottom: 34px solid #BDDBFC;
+
+  }
+
+  .planHeaderpart2triangle3{
+    /* display: none; */
+    position: absolute;
+    left: 0px;
+    top:0px;
+    transform: rotate(180deg);
+    border-left: var(--container-width) solid transparent;
+    border-right: var(--container-width) solid transparent;
+    border-bottom: 49px solid #66AEFF;
+
+  }
+  .planHeaderpart2triangle2{
+    display: none;
+  }
+  .plan-item {
+    flex-direction: column;
+    align-items: flex-start;
+    height: auto; /* Adjust height to fit content */
+  }
+
+  .plan-info {
+    background-color: var(--label-button);
+
+    margin-bottom: 15px; /* Add margin between content and button */
+  }
+
+  .buy-button {
+    align-self: stretch; /* Make button take full width */
+    text-align: center;
+  }
+  .plan-details{
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    background-color: var(--label-button);
+    margin-top: 50px;
+    justify-content: space-around;
+    flex-wrap: wrap; /* Allow items to wrap to the next line */
+
+  }
+.planContainer{
+  background-color: var(--label-button);
+  overflow: hidden;
+  width: 100%;
+
+
+}
+.planinfocontent{
+  width: fit-content;
+}
+  .plan-details>p{
+    color: white;
+    font-size: 14px;
+    width: fit-content; 
+    justify-content: center;
+  }
+.planamount{
+  color: var(--label-button);
+  z-index: 110;
+  position: static;
+  margin-top: 60px;
+  /* transform: translate(82%, 42%); */
+  background: #BDDBFC;
+  padding: 10px;
+
+}
+  
+}
+

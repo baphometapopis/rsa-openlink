@@ -1,21 +1,9 @@
-// import { getUserSession } from "../utils/auth";
+// Define the default body parameters
+const DEFAULT_BODY_PARAMS = { dealer_id: 11111 };
 
-// Define the type for user session data
-interface UserSessionData {
-  loginUserData?: {
-    Token?: string;
-    // Add other properties if needed
-  };
-}
-
-// Replace getUserSession() with actual type from your utils/auth if possible
-// const user_data: UserSessionData | null = getUserSession();
-// const AUTH_TOKEN: string | undefined = user_data?.loginUserData?.Token;
-
-const DEFAULT_BODY_PARAMS: { dealer_id: number } = { dealer_id: 11111 };
-
-const serializeToQueryParams = (obj: Record<string, any>): string => {
-  const str: string[] = [];
+// Function to serialize an object into query parameters
+const serializeToQueryParams = (obj) => {
+  const str = [];
   for (const p in obj) {
     if (obj.hasOwnProperty(p)) {
       let encodedValue = encodeURIComponent(obj[p]);
@@ -29,11 +17,11 @@ const serializeToQueryParams = (obj: Record<string, any>): string => {
 
 // Function to make API calls with fetch
 export const makeApiCall = async (
-  url: string,
-  method: 'GET' | 'POST' | 'PUT' | 'DELETE',
-  data: Record<string, any> = {}
-): Promise<any> => {
-  const requestOptions: RequestInit = {
+  url,
+  method = 'GET',
+  data = {}
+) => {
+  const requestOptions = {
     method,
     headers: {
       // Add authorization token to the request headers
@@ -41,7 +29,7 @@ export const makeApiCall = async (
     },
   };
 
-  let bodyData: FormData | undefined;
+  let bodyData;
 
   if (method === 'GET') {
     const queryParams = serializeToQueryParams({ ...DEFAULT_BODY_PARAMS, ...data });

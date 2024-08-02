@@ -36,12 +36,17 @@ export const getUserSession = () => {
   return userData;
 };
 
-export const setFormDatatoLocal=(formdata)=>{
-  const data = getUserSession()
-  const submiteddata={...data,formData:formdata}
+export const setFormDatatoLocal = (formdata) => {
+  const data = getUserSession() || {}; // Ensure data is an object if getUserSession returns null
+
+  // Check if formData exists and update it or create a new one
+  const updatedFormData = data.formData ? { ...data.formData, ...formdata } : formdata;
+  const submiteddata = { ...data, formData: updatedFormData };
+
   const encryptedData = encryptData(submiteddata);
   localStorage.setItem(`${STORAGE_KEY_PREFIX}`, encryptedData);
-}
+};
+
 
 export const setAddPlan=(planID)=>{
   const data = getUserSession()

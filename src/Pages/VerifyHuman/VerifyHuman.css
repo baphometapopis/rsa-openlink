@@ -1,4 +1,4 @@
-.verify-container {
+/* .verify-container {
   background-color: white;
   width: 90%;
   max-width: 400px;
@@ -102,7 +102,6 @@
   background-color: #45a049;
 }
 
-/* Mobile responsiveness */
 @media (max-width: 768px) {
   .verify-container {
     width: 95%;
@@ -148,7 +147,6 @@
   color: #0056b3;
 }
 
-/* Very small screen adjustments */
 @media (max-width: 480px) {
   .verify-container {
     width: 100%;
@@ -176,4 +174,4 @@
   .otp-timer {
     font-size: 14px;
   }
-}
+} */

@@ -1,6 +1,6 @@
 import './App.css'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import TextInput from './Components/UI/TextInput'
 import moment from 'moment'
 import Dropdown from './Components/UI/Dropdown'
@@ -17,6 +17,8 @@ import PaymentModal from './Pages/Modal/PaymentModal/PaymentModal'
 import { convertDateFormat } from './Utils/ConvertDateFormat'
 import ErrorModal from './Pages/Modal/ErrorModal'
 import { decryptAESCBC256 } from './Utils/encryption'
+import { BackgroundImage, RsaBanner, TopEllipse } from './Constant/imageConstant'
+import FullPageLoader from './Components/FullPageLoader/FullPageLoader'
 
 function App() {
   const params = useParams()
@@ -28,7 +30,9 @@ function App() {
   const [salutation, setsalutation] = useState([])
   const [genderOption, setgenderOption] = useState([])
   const [selectedPlan,setSelectedPlan]=useState('')
-  
+  const containerRef = useRef(null);
+  const [showLoader,setShowLoader] = useState(false)
+
   const [nom_relation, setnom_relation] = useState([])
   const [modalArr, setmodalArr] = useState([])
   const [isBHSeries,setisBHSeries]= useState(false)
@@ -351,25 +355,41 @@ setisBHSeries(!isBHSeries)
       // Add your handleSubmit logic here
       console.log(formData?.model_id)
       if(selectedPlan){
+        setShowLoader(true)
 const res = await makeApiCall(Api_Endpoints?.BuyPolicy,'POST',{plan:selectedPlan?.id,dealer_code:11111,policy_type:'service',...formData})
         if(res?.status){
           const paymentData = JSON.parse(res?.data);
           // console.log(paymentData)
+          setShowLoader(false)
 
           handleOpenModal()
           setPaymentData(paymentData)
           showSuccessToast(res?.message)
         }else{
+          setShowLoader(false)
+
           showErrorToast(res?.message)
         }
       }else{
+
+        setShowLoader(true)
       setFormDatatoLocal(formData)
           const planres = await makeApiCall(Api_Endpoints?.GetplanDataBymodel, 'POST', {
           dealer_code: 11111,
           policy_type: 'service',
           model_id: formData?.model_id
         });
+
+        if(planres?.status){
             navigate('/PlansSelection', { state: { plansData: planres?.plan_array } });
+            showSuccessToast(planres?.message)
+            setShowLoader(false)
+
+          }else{
+            setShowLoader(false)
+
+            showErrorToast(planres?.message)
+          }
     }
       
     }else{
@@ -498,19 +518,92 @@ console.log(data)
 
 
   
- 
+  const updateWidth = () => {
+    if (containerRef.current) {
+      const newWidth = containerRef.current.offsetWidth;
+      // Update the CSS variable
+    let  halfwidth=newWidth/2
+      document.documentElement.style.setProperty('--container-width', `${halfwidth}px`);
+    }
+  };
+
+  useEffect(() => {
+    updateWidth();
+
+    // Update width on window resize
+    window.addEventListener('resize', updateWidth);
+
+    // Cleanup the event listener on component unmount
+    return () => {
+      window.removeEventListener('resize', updateWidth);
+    };
+  }, []);
+
   return (
-    <div className='MainContainer'>
-     
+    
+    <div className="HomeContainer">
+    <img src={BackgroundImage} className='mainbackground'  />
+  
       <div className='FormContainer'>
+     
+        <div className="frontbanner">
+          <img src={TopEllipse} alt="RSA Banner" style={{width:'100%',}}  />
+          <img
+            src={"https://www.tvsservice.com/assets/images/tvs.png"}
+            alt="tvs-brand-logo"
+            className="HeaderLogo"
+          />
+          </div>
+         
         <div className='FormHeader'>
           <p style={{ fontSize: '24px' }}>
             Road Side Assistance (RSA)
           </p>
         </div>
+        {selectedPlan&&    <div   ref={containerRef}
+ className='planContainer'>
+           <div className='plan-header'>
+      <div className='planheaderpart1'>
+        <p className='plantitle'>
+
+
+      {selectedPlan.plan_name}
+
+        </p>
+      </div>
+      <div className='planheaderpart2'>
+      <p  className='planamount'>Buy@₹ {parseFloat(selectedPlan.plan_amount) + parseFloat(selectedPlan.gst_amount)}/<span style={{fontSize:'16px',fontWeight:'bold'}}>year</span></p>
+        <div className='planHeaderpart2triangle'></div>
+        <div className='planHeaderpart2triangle2'></div>
+        <div className='planHeaderpart2triangle3'></div>
+
+
+      </div>
+      
+
+    </div>
+      
+           <div className="plan-info">
+
+          
+          
+          
+              {true && (
+            <div className="plan-details">
+              
+              <p className='planinfocontent'>Plan Code:<strong> {selectedPlan.plan_code}</strong></p>
+              <p className='planinfocontent'>KM Covered:<strong> {selectedPlan.km_covered} km</strong></p>
+              <p className='planinfocontent'>Sum Insured:<strong> ₹{selectedPlan.sum_insured}</strong></p>
+              <p className='planinfocontent'>Tenure:<strong> {selectedPlan.rsa_tenure} year(s)</strong></p>
+            </div>
+          )}
+         
+          </div>
+        </div>
+}
         <form onSubmit={handleSubmit}>
 
-        <h4 style={{color:'#183882',fontSize:'22px',margin:'25px'}}>Vehicle Details</h4>
+        <h4 style={{color:'#183882',fontSize:'18px',margin:'25px'}}>Vehicle Details</h4>
 
           <div className='internalFormContainer'>
             
@@ -566,9 +659,9 @@ console.log(data)
               placeholder="Select Model"
               error={formErrors.model_id}
             />
-<div style={{display:'flex',justifyContent:'center',alignItems:'center'}}>
+{/* <div style={{display:'flex',justifyContent:'center',alignItems:'center'}}>
 <ToggleSwitch  isChecked={isBHSeries} label='Registration Type'/>
-</div>
+</div> */}
 
 
             <TextInput
@@ -587,7 +680,7 @@ console.log(data)
             <div></div>
           </div>
 
-          <h4 style={{color:'#183882',fontSize:'22px',margin:'25px'}}>Customer Details</h4>
+          <h4 style={{color:'#183882',fontSize:'18px',margin:'20px'}}>Customer Details</h4>
           <div className='internalFormContainer'>
             <Dropdown
               required={true}
@@ -806,41 +899,18 @@ console.log(data)
     {/* {showVerificationBox &&  <VerifyHuman modelID={formData?.model_id} params={params}/>} */}
 
         <div className="form-actions">
-            <button type="submit" className="submit-button">{selectedPlan?'Generate Policy':'Submit'}</button>
+            <button type="submit" className="submit-button">{selectedPlan?'Generate Policy':'Select Plan'}</button>
           </div>
 
         </form>
+ 
       </div>
        
-      {selectedPlan&&<div className="plans-container" style={{overflow:'hidden'}}>
-        
-        <div key={selectedPlan.id} className="plan-item" style={{justifyContent:'center',alignItems:'center'}}>
-          <div className="plan-info">
-            <h3 style={{color:'#a6a9ae',fontWeight:'700',width:'250px',textAlign:'center',margin:'15px'}}>
-              {selectedPlan.plan_name}
-            </h3>
-            <p style={{color:'#0089D2',fontSize:'24px',fontWeight:'bold',textAlign:'center',width:'250px',margin:'15px'}}>
-              ₹ {parseFloat(selectedPlan.plan_amount) + parseFloat(selectedPlan.gst_amount)}/<span style={{fontSize:'16px',fontWeight:'bold'}}>year</span>
-            </p>
 
-            <div className="details-toggle" onClick={() => toggleDetails(selectedPlan.id)}>
-              <span>{visibleDetails[selectedPlan.id] ? 'Hide Package Details ▲' : 'Show Package Details ▼'}</span>
-              <div style={{textAlign:'left',marginTop:'15px'}}>
-              {visibleDetails[selectedPlan.id] && (
-            <div className="plan-details">
-              <p><strong>Plan Code:</strong> {selectedPlan.plan_code}</p>
-              <p><strong>KM Covered:</strong> {selectedPlan.km_covered} km</p>
-              {/* <p><strong>Commission:</strong> Dealer - ₹{plan.dealer_commission}, RSA - ₹{plan.rsa_commission_amount}</p> */}
-              <p><strong>Sum Insured:</strong> ₹{selectedPlan.sum_insured}</p>
-              <p><strong>Tenure:</strong> {selectedPlan.rsa_tenure} year(s)</p>
-              {/* Add any other details you want to show here */}
-            </div>
-          )}
-          </div>
-            </div>
-          </div>
-        </div>
-    </div>}
+      {showLoader&&   <FullPageLoader/>}
+
+
+     
     <PaymentModal 
     visible={isModalVisible} 
     // visible={true} 

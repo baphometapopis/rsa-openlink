@@ -12,6 +12,8 @@
   }
   
   .dropdown {
+    background-color: white;
+
     width: 100%;
     padding: 5px;
     font-size: 16px;

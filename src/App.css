@@ -4,7 +4,21 @@
   box-sizing: border-box;
   font-family: Arial, Helvetica, sans-serif;
 }
+.FormContainer{
+  position: absolute;
+  width: 70%;
+  height: 100%; /* Adjust this if you want the height to fit the content */
+  top: 50%;
+  left: 51%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 2; /* Ensure it's above the background */
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.8));
+  overflow: scroll;
+  
 
+}
 p {
   margin: 0;
   padding: 0;
@@ -22,18 +36,13 @@ p {
 
 }
 
-.FormContainer {
-  background-color: white;
-  width: 75%;
-  border: 1px solid #cbc5c5;
-}
 
 .FormHeader {
-  background-color: #F1F5F9;
+  /* background-color: #F1F5F9; */
   padding: 20px;
-  border-bottom: 1px solid #cbc5c5;
   text-align: center;
   margin-bottom: 20px;
+  color: var(--label-button);
 }
 
 .internalFormContainer {
@@ -44,7 +53,16 @@ p {
 
   /* justify-content: center; */
 }
-
+.HeaderLogo{
+  position: absolute;
+  /* top: 80px; */
+  /* left: 40%; */
+  width: 250px;
+}
+.mainbackground{
+  height: 100%;
+  width: 100%;
+}
 .internalFormContainer > * {
   flex: 1 1 calc(25% - 16px); /* 4 items in a row */
   min-width: 250px;
@@ -61,10 +79,11 @@ p {
 }
 
 .submit-button {
+  cursor: pointer;
   padding: 10px 20px;
   font-size: 16px;
   color: white;
-  background-color: #007bff;
+  background-color: var(--label-button);
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -72,7 +91,7 @@ p {
 }
 
 .submit-button:hover {
-  background-color: #0056b3;
+  background-color: #051e3c;
 }
 
 /* Media query for smaller screens */
@@ -80,9 +99,32 @@ p {
   .internalFormContainer > * {
     flex: 1 1 calc(33.33% - 16px); /* 3 items in a row */
   }
+ 
 }
 
 @media (max-width: 900px) {
+  .planHeaderpart2triangle{
+    /* display: none; */
+    left: 0px;
+    top:-1px;
+    transform: rotate(180deg);
+    border-left: var(--container-width) solid transparent;
+    border-right: var(--container-width) solid transparent;
+    border-bottom: 34px solid #BDDBFC;
+
+  }
+
+  .planHeaderpart2triangle3{
+    /* display: none; */
+    position: absolute;
+    left: 0px;
+    top:0px;
+    transform: rotate(180deg);
+    border-left: var(--container-width) solid transparent;
+    border-right: var(--container-width) solid transparent;
+    border-bottom: 49px solid #66AEFF;
+
+  }
   .MainContainer{
     flex-direction: column-reverse;
   }
@@ -95,11 +137,23 @@ p {
   .FormContainer {
     width: 100%;
   }
+  .HeaderLogo{
+  width: 150px;
+  }
   .MainContainer{
     flex-direction: column-reverse;
   }
 
   .internalFormContainer > * {
     flex: 1 1 100%; /* 1 item in a row */
+  }
+}
+
+@media (max-width: 768px) {
+  .FormContainer{
+    width: 100%;
+  }
+  .mainbackground{
+    /* display: none; */
   }
 }
