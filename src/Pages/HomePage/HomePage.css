@@ -45,6 +45,16 @@
   justify-content: center;
   position: relative;
 }
+.touchablediv {
+  position: absolute;
+  margin-right: 400px;
+  bottom: 15px;
+  height: 20px;
+
+  width: 80px;
+  background-color:transparent;
+  
+}
 
 .frontbanner img {
   margin-right: 20px; /* Space between image and text */
@@ -92,8 +102,9 @@
 
 .title1 {
   margin-top: 50px;
-  font-size: 32px;
+  font-size: 28px;
   font-weight: bold;
+  text-align: center;
   color: var(--label-color);
 }
 
@@ -244,6 +255,19 @@
     font-size: 35px;
     width: 250px;
   }
+  .touchablediv {
+    position: absolute;
+    margin-right: 400px;
+    bottom: 15px;
+    width: 80px;
+
+    cursor: pointer;
+    z-index: 10px;
+    background-color: transparent;
+
+    
+  }
+
 
   .frontbanner .subtitle1 {
     font-size: 22px;
@@ -265,6 +289,16 @@
   .frontbanner .subtitle1 {
     font-size: 20px;
   }
+  .touchablediv {
+    position: absolute;
+    margin-right: 380px;
+    bottom: 15px;
+    width: 80px;
+    cursor: pointer;
+
+
+    
+  }
 }
 
 /* For screens smaller than 600px */
@@ -283,6 +317,14 @@
     font-size: 24px;
     width: auto;
   }
+  .touchablediv {
+    position: absolute;
+    margin-right: 480px;
+    bottom: 15px;
+    width: 80px;
+    cursor: pointer;
+    
+  }
 
   .frontbanner .subtitle1 {
     font-size: 18px;
@@ -298,6 +340,16 @@
   }
 
   .title1 {
-    font-size: 28px;
+    font-size: 20px;
+  }
+}
+@media (max-width: 530px) {
+  .touchablediv {
+    position: absolute;
+    margin-right: 280px;
+    bottom: 15px;
+    width: 80px;
+    cursor: pointer;
+    
   }
 }

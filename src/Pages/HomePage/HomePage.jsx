@@ -10,6 +10,8 @@ import '../../COLOR.css' // Import the CSS file
 import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
 import { useLocation, useNavigate } from 'react-router-dom';
 import FullPageLoader from '../../Components/FullPageLoader/FullPageLoader';
+import Tippy from "@tippyjs/react";
+import "tippy.js/dist/tippy.css";
 
 const HomePage = () => {
   const [isOtpValid, setIsOtpValid] = useState(false);
@@ -254,13 +256,16 @@ const [showLoader,setShowLoader] = useState(false)
           />
         <div className="frontbanner">
           <img src={RsaBanner} alt="RSA Banner" className='rsabanner'  />
+          <div   onClick={() => window.location.href = 'tel:+18002587111'}
+ className='touchablediv' style={{cursor:'pointer'}}></div>
           <div>
-            <p className="title">RoadSide Assistance(RSA)</p>
-            <p className="subtitle1">We got the distance when it comes to your assistance</p>
+
+            <p className="title">Road Side Assistance(RSA)</p>
+            <p className="subtitle1">We go the distance when it comes to your assistance</p>
           </div>
         </div>
         <div className='MainForm1'>
-        <p className='title1' >Renew Your Policy</p>
+        <p className='title1' >Stay Covered: Renew or Purchase Your Policy with Ease</p>
         <div className='Searchcontainer'>
         <input 
           type='text' 
@@ -292,7 +297,15 @@ const [showLoader,setShowLoader] = useState(false)
 
 <div style={{display:'flex',justifyContent:'center',alignItems:'center'}}>
               <p style={{color:'#4F4F4F',textAlign:'center',margin:'0px',fontSize:'18px'}}>Enter OTP Sent to {maskedPhoneNumber}</p>
-<img onClick={()=>setPhoneNumber(null)} src={PhoneNumberEdit} style={{height:'22px',width:'22px',cursor:'pointer'}}/>
+              <Tippy
+                  content={'Update Mobile No'}
+                  placement="right"
+                  
+                  // className="rounded-sm text-xs"
+                >
+<p onClick={()=>setPhoneNumber(null)} style={{textDecoration:'underline',margin:'2px',fontWeight:'bolder',cursor:'pointer'}}>Edit</p>
+</Tippy>
+
               </div>
               <div className="otp-inputs">
                 {otpInputs.map((otp, index) => (

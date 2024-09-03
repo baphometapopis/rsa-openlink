@@ -162,7 +162,7 @@ setisBHSeries(!isBHSeries)
 
            
 
-            break
+            
             case 'nominee_age':
               let ageInput = e.target.value.replace(/\D/g, '').slice(0, 3);
               const age = parseInt(ageInput);

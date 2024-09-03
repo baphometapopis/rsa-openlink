@@ -4,7 +4,6 @@
   "version": "0.0.0",
   "type": "module",
   "homepage": "https://myhrmsnow.com/tvs-rsa/",
-
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
@@ -13,6 +12,7 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.6",
+    "@tippyjs/react": "^4.2.6",
     "antd": "^5.19.1",
     "base-64": "^1.0.0",
     "crypto-js": "^4.2.0",
