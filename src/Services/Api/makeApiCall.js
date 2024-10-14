@@ -1,5 +1,8 @@
+import { getParamsFromLocal } from "../../Utils/localStorage";
+
 // Define the default body parameters
-const DEFAULT_BODY_PARAMS = { dealer_id: 11111 };
+const storedParams = getParamsFromLocal();
+const DEFAULT_BODY_PARAMS = { dealer_code: storedParams?.dealer_id??11111,policy_type:storedParams?.service??'service' };
 
 // Function to serialize an object into query parameters
 const serializeToQueryParams = (obj) => {

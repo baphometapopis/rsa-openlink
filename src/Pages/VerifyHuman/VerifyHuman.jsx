@@ -74,26 +74,7 @@ const VerifyHuman = ({ modelID, params }) => {
       setIsOtpValid(true);
 
       showSuccessToast('OTP VERIFIED')
-      navigate('Generate-Policy',{state:PolicyData})
-      // if (modelID) {
-      //   const res = await makeApiCall(Api_Endpoints?.GetplanDataBymodel, 'POST', {
-      //     dealer_code: params?.dealer_id,
-      //     policy_type: params?.service,
-      //     model_id: modelID
-      //   });
-
-      //   if (res?.status) {
-      //     if (res?.plan_array?.length > 0) {
-      //       navigate('PlansSelection', { state: { plansData: res?.plan_array } });
-      //     } else {
-      //       showErrorToast('No Plan Found for this Model');
-      //     }
-      //   } else {
-      //     showErrorToast(res?.message);
-      //   }
-      // } else {
-      //   showErrorToast('Model Not Selected');
-      // }
+      navigate('/Generate-Policy',{state:PolicyData})
     } else {
       alert('Invalid OTP');
       setOtpInputs(['', '', '', '', '', '']);

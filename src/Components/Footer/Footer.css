@@ -1,12 +1,17 @@
 .FooterContainer {
-    background-color: black;
-    color: white;
+    /* background-color: black; */
+    /* background-color: #183882; */
+
+    
+    color: #183882;
     padding: 5px;
     text-align: center;
     position: fixed;
     bottom: 0;
     width: 100%;
     font-size: 16px; /* Default font size */
+    z-index: 999;
+    font-weight: 900;
 }
 
 /* Media query for smaller screens */

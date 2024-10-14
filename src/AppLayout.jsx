@@ -1,13 +1,15 @@
 // src/AppLayout.jsx
 import React from 'react';
 import { Provider } from 'react-redux';
-import { Outlet} from 'react-router-dom';
+import { Navigate, Outlet, useNavigate, useParams} from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
-// import { Footer } from './Components/Footer/Footer';
-// import { Header } from './Components/Header/Header';
+import { Footer } from './Components/Footer/Footer';
+import { Header } from './Components/Header/Header';
 // import { Banner } from './Constant/imageConstant';
 import store from './Pages/Redux/store';
 const AppLayout = () => {
+
+
   return (
     <Provider store={store}>
     <div style={{height:'100vh',width:'100vw'}}>

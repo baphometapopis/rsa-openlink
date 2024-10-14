@@ -63,7 +63,8 @@
 .frontbanner .title {
   color: #25308e;
   font-weight: bolder;
-  font-size: 40px;
+  font-size: 31px;
+  white-space: nowrap;
   width: 250px;
 }
 
@@ -233,6 +234,21 @@
   align-items: center;
 }
 
+.policyDatalabelvalue{
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+
+.policyDatalabel{
+  width: 150px;
+}
+.policyDataValue{
+font-size: 15px;
+width: 200px;}
+
 /* Media Queries */
 @media (max-width: 1005px) {
   .MainForm{ min-width: 550px;}
@@ -263,7 +279,6 @@
 
     cursor: pointer;
     z-index: 10px;
-    background-color: transparent;
 
     
   }
@@ -343,10 +358,30 @@
     font-size: 20px;
   }
 }
-@media (max-width: 530px) {
+@media (max-width: 553px) {
   .touchablediv {
     position: absolute;
-    margin-right: 280px;
+    margin-right: 400px;
+    bottom: 15px;
+    width: 80px;
+    cursor: pointer;
+    
+  }
+}
+@media (max-width: 457px) {
+  .touchablediv {
+    position: absolute;
+    margin-right: 300px;
+    bottom: 15px;
+    width: 80px;
+    cursor: pointer;
+    
+  }
+}
+@media (max-width: 369px) {
+  .touchablediv {
+    position: absolute;
+    margin-right: 250px;
     bottom: 15px;
     width: 80px;
     cursor: pointer;

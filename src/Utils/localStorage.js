@@ -21,6 +21,24 @@ export const setUserSession = (user) => {
   localStorage.setItem(`${STORAGE_KEY_PREFIX}`, encryptedData);
 };
 
+
+export const setOTP = (user) => {
+
+  // const encryptedData = encryptData(user);
+  localStorage.setItem('opnrsaOTP', user?.otp);
+};
+
+
+export const removeOTP = () => {
+  localStorage.removeItem('opnrsaOTP');
+};
+
+export const getOTP = () => {
+  const encryptedData = localStorage.getItem('opnrsaOTP');
+  return encryptedData;
+};
+
+
 export const getUserSession = () => {
   const encryptedData = localStorage.getItem(`${STORAGE_KEY_PREFIX}`);
   if (!encryptedData) return null;
@@ -40,12 +58,37 @@ export const setFormDatatoLocal = (formdata) => {
   const data = getUserSession() || {}; // Ensure data is an object if getUserSession returns null
 
   // Check if formData exists and update it or create a new one
-  const updatedFormData = data.formData ? { ...data.formData, ...formdata } : formdata;
+  const updatedFormData = data.formData?.policy_data ? { ...data.formData, ...formdata } : formdata;
+
   const submiteddata = { ...data, formData: updatedFormData };
+  const encryptedData = encryptData(submiteddata);
+  localStorage.setItem(`${STORAGE_KEY_PREFIX}`, encryptedData);
+};
+
+
+export const updateMobileNotoLocal = (mobileNo)=>{
+  const data = getUserSession() || {}; 
+
+  data.formData.policy_data.mobile_no=mobileNo
+
+  const submiteddata = { ...data};
+  const encryptedData = encryptData(submiteddata);
+  localStorage.setItem(`${STORAGE_KEY_PREFIX}`, encryptedData);
+
+}
+
+export const updatePolicyData = (formdata) => {
+  const data = getUserSession() || {}; // Ensure data is an object if getUserSession returns null
+data.formData.policy_data=formdata
+  // Check if formData exists and update it or create a new one
+  // const updatedFormData = data.formData.policy_data ? { ...data.formData, ...formdata } : formdata;
+  const submiteddata = { ...data };
 
   const encryptedData = encryptData(submiteddata);
   localStorage.setItem(`${STORAGE_KEY_PREFIX}`, encryptedData);
 };
+
+
 
 
 export const setAddPlan=(planID)=>{
@@ -57,6 +100,23 @@ export const setAddPlan=(planID)=>{
   localStorage.setItem(`${STORAGE_KEY_PREFIX}`, encryptedData);
 }
 
+
+export const setParamsToLocal = (params) => {
+  const currentSessionData = getUserSession() || {};
+  
+  const updatedData = { ...currentSessionData, params };
+  
+  const encryptedData = encryptData(updatedData);
+  localStorage.setItem(`${STORAGE_KEY_PREFIX}`, encryptedData);
+};
+
+
 export const clearUserSession = () => {
-  localStorage.removeItem(`${STORAGE_KEY_PREFIX}`);
+  localStorage.clear();
+
+};
+
+export const getParamsFromLocal = () => {
+  const userData = getUserSession();
+  return userData ? userData.params : null;
 };

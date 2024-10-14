@@ -56,3 +56,13 @@ console.log(decrypted)
     return decrypted.toString(CryptoJS?.enc?.Utf8);
 }
 
+export const decryptPassword = (encryptedPassword) => {
+
+    import.meta.env.VITE_API_URL
+    const key = CryptoJS.enc.Utf8.parse(import.meta.env.VITE_APP_API_ENCRYPTION_KEY);
+    const iv = CryptoJS.enc.Utf8.parse(import.meta.env.VITE_APP_API_ENCRYPTION_IV);
+
+    const decrypted = CryptoJS.AES.decrypt(atob(encryptedPassword), key, { iv: iv });
+    return   JSON.parse(decrypted.toString(CryptoJS.enc.Utf8));
+  };
+

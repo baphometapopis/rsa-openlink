@@ -3,28 +3,39 @@ import { BackgroundImage, IconSearch, PhoneNumberEdit, RsaBanner } from '../../C
 import { Api_Endpoints } from '../../Services/Api/apiEndpoint';
 import { makeApiCall } from '../../Services/Api/makeApiCall';
 import { showErrorToast, showSuccessToast } from '../../Services/ToastServices/toastService';
-import { getUserSession, setFormDatatoLocal } from '../../Utils/localStorage';
+import { clearUserSession, getOTP, getParamsFromLocal, getUserSession, removeOTP, setFormDatatoLocal, setOTP, setParamsToLocal, updateMobileNotoLocal } from '../../Utils/localStorage';
 import VerifyHuman from '../VerifyHuman/VerifyHuman';
 import './HomePage.css';
 import '../../COLOR.css' // Import the CSS file
 import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import FullPageLoader from '../../Components/FullPageLoader/FullPageLoader';
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
+import { Footer } from '../../Components/Footer/Footer';
+import { decryptPassword } from '../../Utils/encryption';
 
 const HomePage = () => {
+  const { service, dealer_id } = useParams();
+  
+
   const [isOtpValid, setIsOtpValid] = useState(false);
   const [ShowMobileOTP,setShowMobileOTP]=useState(false)
+
+  const [successPolicyData,setsuccessPolicyData]=useState(null)
+  const [policyPDF,setpolicyPDF]=useState(null)
+
   const [phoneNumber, setPhoneNumber] = useState(null);
   const [chassisNumber, setChassisNumber] = useState('');
 const [showLoader,setShowLoader] = useState(false)
+
   const [isCaptchaVerified, setIsCaptchaVerified] = useState(false);
   const [captchaInput, setCaptchaInput] = useState('');
   const [otpInputs, setOtpInputs] = useState(['', '', '', '', '', '']);
   const navigate = useNavigate();
   const [timer, setTimer] = useState(300);
   const [showCaptcha,setShowcaptcha]=useState(false)
+  const [paymentMessage,setPaymentMessage]=useState('')
 
   const [engineNumber, setEngineNumber] = useState('');
   const [policyData, setPolicyData] = useState('');
@@ -37,9 +48,26 @@ const [showLoader,setShowLoader] = useState(false)
   const location = useLocation()
 
   const [paymentstatus,setPaymentStatus]=useState(false)
+  const [showSearchBar,setshowSearchBar]=useState(true)
+
   const [showpaymentstatus,setShowPaymentStatus]=useState(false)
 
 
+const sendOtp =async()=>{
+setShowLoader(true)
+  let res = await makeApiCall(Api_Endpoints.sendOTP,'GET',{mobile_number:phoneNumber})
+
+  if(res?.status){
+    res.data= decryptPassword(res?.data)
+    showSuccessToast(res?.message)
+    setOTP(res.data)
+  }else{
+    showErrorToast(res?.message)
+  }
+  setShowLoader(false)
+
+}
+  
   const validateEngineNumber = (value) => {
     const pattern = /^[A-Za-z0-9]{5,17}$/;
     if (!pattern.test(value)) {
@@ -51,7 +79,7 @@ const [showLoader,setShowLoader] = useState(false)
   const handleCaptchaVerify = () => {
     if (validateCaptcha(captchaInput)) {
       setIsCaptchaVerified(true);
-      // sendOtp()
+      sendOtp() 
       setTimer(300)
       setShowMobileOTP(true)
     } else {
@@ -91,11 +119,12 @@ const [showLoader,setShowLoader] = useState(false)
     setShowLoader(true)
 
     try {
-      const res = await makeApiCall(Api_Endpoints.getDataByChassisNumber, 'POST', {
+      let  res = await makeApiCall(Api_Endpoints.getDataByChassisNumber, 'POST', {
         vehicle_detail: engineNumber,
-        policy_type: 'service',
       });
       if (res?.status) {
+      res.model_array =  decryptPassword(res.model_array)
+      res.policy_data =  decryptPassword(res.policy_data)
         setPolicyData(res);
         setFormDatatoLocal(res);
         showSuccessToast('Engine Number Found');
@@ -127,30 +156,13 @@ const [showLoader,setShowLoader] = useState(false)
 
   const verifyOtp = async () => {
     const otp = otpInputs.join('');
-    if (otp === '123456') { // Replace '123456' with actual OTP verification logic
+  let data = getOTP()
+    if (otp === data) { // Replace '123456' with actual OTP verification logic
       setIsOtpValid(true);
 
       showSuccessToast('OTP VERIFIED')
-      navigate('Generate-Policy',{state:policyData})
-      // if (policyData?.policy_data?.model_id) {
-      //   const res = await makeApiCall(Api_Endpoints?.GetplanDataBymodel, 'POST', {
-      //     dealer_code: 11111,
-      //     policy_type: 'service',
-      //     model_id: policyData?.policy_data?.model_id
-      //   });
-
-      //   if (res?.status) {
-      //     if (res?.plan_array?.length > 0) {
-      //       navigate('PlansSelection', { state: { plansData: res?.plan_array } });
-      //     } else {
-      //       showErrorToast('No Plan Found for this Model');
-      //     }
-      //   } else {
-      //     showErrorToast(res?.message);
-      //   }
-      // } else {
-      //   showErrorToast('Model Not Selected');
-      // }
+      navigate('/Generate-Policy',{state:policyData,service:service,dealer_id:dealer_id})
+      removeOTP()
     } else {
       alert('Invalid OTP');
       setOtpInputs(['', '', '', '', '', '']);
@@ -162,7 +174,8 @@ const [showLoader,setShowLoader] = useState(false)
     setTimer(300);
     setOtpInputs(['', '', '', '', '', '']);
     inputRefs.current[0].focus();
-    showSuccessToast('Otp Sent')
+    sendOtp()
+    // showSuccessToast('Otp Sent')
     
   };
   const handleChassisSubmit = async () => {
@@ -185,10 +198,10 @@ const [showLoader,setShowLoader] = useState(false)
     // console.log(localformData)
     let updatedData={...localformData}
 
-    console.log(updatedData.formData.policy_data.mobile_no,'lkjhgf')
     updatedData.formData.policy_data.mobile_no=newMobileNumber
 
-    setFormDatatoLocal({...updatedData})
+    updateMobileNotoLocal(newMobileNumber)
+
     
     showSuccessToast('Mobile Number Updated')
     setPhoneNumber(newMobileNumber)
@@ -203,6 +216,29 @@ const [showLoader,setShowLoader] = useState(false)
 
   }
 
+  const handleDownloadPDF = async (url) => {
+    try {
+      // console.log(Policy?.pdf_url)
+      const pdfUrl = url;
+      const response = await fetch(pdfUrl, {
+        method: 'GET',
+        mode: 'cors' // Ensures the request is treated as a CORS request
+    });
+      const blob = await response.blob();
+
+      const downloadLink = document.createElement("a");
+      downloadLink.href = URL.createObjectURL(blob);
+      downloadLink.download = `policypdf.pdf`;
+
+      downloadLink.click();
+    } catch (error) {
+      console.error("Error downloading PDF:", error);
+    }
+  };
+
+
+
+
   const handleKeyPress = (e, index) => {
     const keyCode = e.keyCode || e.which;
     const keyValue = String.fromCharCode(keyCode);
@@ -214,9 +250,13 @@ const [showLoader,setShowLoader] = useState(false)
 
 
   useEffect(() => { 
-    const data = getUserSession()
-    console.log(data)
 
+    const data = getUserSession()
+    console.log(data,'local Data')  
+      if (!service || !dealer_id) {
+      navigate('/Not-Found')
+    }
+  
   }, [showVerificationBox, policyData]);
   useEffect(()=>{ 
     if(showCaptcha&&!ShowMobileOTP){
@@ -224,6 +264,12 @@ const [showLoader,setShowLoader] = useState(false)
   }
   },[showCaptcha,ShowMobileOTP])
   
+  useEffect(() => {
+  
+      setParamsToLocal({ service, dealer_id });
+    
+  }, [service, dealer_id]); // Dependencies to re-run the effect if service or dealer_id changes
+
   useEffect(() => {
     if (isOtpSent && timer > 0) {
       const interval = setInterval(() => {
@@ -234,12 +280,43 @@ const [showLoader,setShowLoader] = useState(false)
   }, [isOtpSent, timer]);
 
 
+  const getPolicyData=async(pdata)=>{
+    const res = await  makeApiCall(Api_Endpoints.policyData,'POST',{pdata:pdata})
+    if(res?.status){
+      showSuccessToast(res?.message)
+      setsuccessPolicyData(res?.data)
+      setpolicyPDF(res?.pdf_url)
+      console.log(res,'success policy Data')
+
+    }else{
+
+      showErrorToast(res?.message)
+
+    }
+  }
   useEffect(()=>{
 
-    console.log(location?.state?.from)
     if(location?.state?.from==='paymentTimeout'&& !engineNumber){
+
+      setPaymentMessage(`Payment Timeout`)
+      setPaymentStatus(false)
+      setshowSearchBar(false)
+      setShowPaymentStatus(true)
+    }else if(location?.state?.from==='paymentSuccess'&& !engineNumber){
+      setshowSearchBar(false)
+      setPaymentMessage(`${location?.state?.paymentStatus}-${location?.state?.paymentMessage} `)
+
+      getPolicyData(location?.state?.pdata)
+
+        setPaymentStatus(true)
+      setShowPaymentStatus(true)
+    }else if(location?.state?.from==='paymentFailed'&& !engineNumber){
+      setshowSearchBar(false)
+
       setPaymentStatus(false)
       setShowPaymentStatus(true)
+      setPaymentMessage(`${location?.state?.paymentStatus}-${location?.state?.paymentMessage} `)
+
     }
 
   },[])
@@ -249,22 +326,22 @@ const [showLoader,setShowLoader] = useState(false)
     <div className="HomeContainer">
     <img src={BackgroundImage} className='mainbackground'  />
     <div className="MainForm">
-      <img
-            src={"https://www.tvsservice.com/assets/images/tvs.png"}
-            alt="tvs-brand-logo"
-            className="HeaderLogo1"
-          />
+    
         <div className="frontbanner">
           <img src={RsaBanner} alt="RSA Banner" className='rsabanner'  />
-          <div   onClick={() => window.location.href = 'tel:+18002587111'}
+          <div   onClick={() => window.location.href = 'tel:18002587111'}
  className='touchablediv' style={{cursor:'pointer'}}></div>
           <div>
 
-            <p className="title">Road Side Assistance(RSA)</p>
+            <p className="title">Road Side </p>
+            <p className="title">Assistance (RSA)</p>
+
+            
             <p className="subtitle1">We go the distance when it comes to your assistance</p>
           </div>
         </div>
         <div className='MainForm1'>
+       {showSearchBar &&   <>
         <p className='title1' >Stay Covered: Renew or Purchase Your Policy with Ease</p>
         <div className='Searchcontainer'>
         <input 
@@ -278,6 +355,7 @@ const [showLoader,setShowLoader] = useState(false)
         <p onClick={searchEngineNumber} className='searchbutton'>Search</p>
 
       </div>
+      </>}
     {showCaptcha&&!ShowMobileOTP&&  <div className='captchacontainer'>
         <p className='subtitle'>Captcha Verification</p>
       <LoadCanvasTemplate />
@@ -348,10 +426,7 @@ const [showLoader,setShowLoader] = useState(false)
                 onChange={(e) =>{
                   let value = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
     // Limit the length of the chassis number
-    if (value.length <= 17) {
-
-      setChassisNumber(value);
-    }
+    if (value.length <= 17) {setChassisNumber(value);}
                 }
                   
                   
@@ -359,13 +434,10 @@ const [showLoader,setShowLoader] = useState(false)
                 placeholder="Enter Chassis Number"
                 className="chassis-input"
               />
-              <button onClick={handleChassisSubmit} className="submit-button">Verify Chassis Number</button>
+              <button onClick={handleChassisSubmit} className="submit-button">Verify Chassis Number</button>  
+              </div>}
 
-            
-            </div>
-}
-
-{isChassisVerified &&  (
+          {isChassisVerified &&  (
             <div style={{display:'flex',justifyContent:'center',flexDirection:'column',alignItems:'center',padding:'10px'}}>
                         <p className='updateMobiletitle'>Update Mobile Number</p>
 
@@ -390,30 +462,85 @@ const [showLoader,setShowLoader] = useState(false)
                 </div>
               )}
 
-{showpaymentstatus &&  (
+            {showpaymentstatus &&  (
              <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center', padding: '10px' }}>
              <p className='updateMobiletitle'>Payment Status</p>
              {paymentstatus === true ? (
               <div>
                <p style={{ textAlign: 'center', marginBottom: '10px', marginTop: '20px',fontSize:'20px',color:'var(--label-button)',fontWeight:'bold' }}>✅ Payment Successful!</p>
-               <p style={{ textAlign: 'center', marginBottom: '10px', marginTop: '20px' }}>Your payment of ₹1 has been received.</p>
+               {/* <p style={{ textAlign: 'center', marginBottom: '10px', marginTop: '20px' }}>Your payment of ₹1 has been received.</p> */}
+               <p style={{ textAlign: 'center', marginBottom: '10px', marginTop: '20px' }}>{paymentMessage}</p>
+
+                <p style={{textAlign:'center',fontSize:'22px',marginTop:'20px'}}>Policy Details</p>
+                <div  className='policyDatalabelvalue'> 
+                <p className='policyDatalabel'>Name</p>
+                <p className='policyDataValue'>{successPolicyData?.full_name}</p>
+                 </div>
+
+                 <div  className='policyDatalabelvalue'> 
+                <p className='policyDatalabel'>Engine no </p>
+                <p className='policyDataValue'>{successPolicyData?.engine_no}</p>
+                 </div>
+
+                 <div  className='policyDatalabelvalue'> 
+                <p className='policyDatalabel'>Chassis No</p>
+                <p className='policyDataValue'>{successPolicyData?.chassis_no}</p>
+                 </div>
+
+                 <div  className='policyDatalabelvalue'> 
+                <p className='policyDatalabel'>Plan Name</p>
+                <p className='policyDataValue'>{successPolicyData?.plan_name}</p>
+                 </div>
+
+                 <div  className='policyDatalabelvalue'> 
+                <p className='policyDatalabel'>Sum Insured</p>
+                <p className='policyDataValue'>{successPolicyData?.sum_insured}</p>
+                 </div>
+
+
+                 <div  className='policyDatalabelvalue'> 
+                <p className='policyDatalabel'>Amount</p>
+                <p className='policyDataValue'>        {successPolicyData?.sold_policy_price_with_tax}
+                </p>
+                 </div>
+
+
+                 <div  className='policyDatalabelvalue'> 
+                <p className='policyDatalabel'>Download:</p>
+                <p  onClick={()=>handleDownloadPDF(policyPDF)} style={{backgroundColor:'#942B48',color:'white',padding:'5px',cursor:'pointer',borderRadius:'5px'}}> Policy PDF</p>
+                 </div>
+
+
+          
+
+
                
+
+
+
                </div>
              ) : (
               <div>
                <p style={{ textAlign: 'center', marginBottom: '10px', marginTop: '20px',fontSize:'20px',color:'var(--label-button)',fontWeight:'bold' }}>❌  Payment Failed!</p>
                <p style={{ textAlign: 'center', marginBottom: '10px', marginTop: '20px' }}> If the amount has been debited from your account, please contact the system administrator.</p>
-</div>
-
+               <p style={{ textAlign: 'center', marginBottom: '10px', marginTop: '20px' }}>{paymentMessage}</p>
+              </div>
              )}
-                  <button onClick={()=>{navigate('/',{replace:true});window.location.reload()}} className="submit-button">Refresh</button>
+                  <button onClick={()=>{     navigate(location.pathname, { replace: true });    window.location.reload();
+
+clearUserSession();setshowSearchBar(true);setShowPaymentStatus(false)}} className="submit-button">Refresh</button>
 
            </div>)}
+
+           <div  className='policyDatalabelvalue'> 
+                <p className='policyDatalabel'>Download:</p>
+                <p  onClick={()=>handleDownloadPDF('https://myassistancenow.com/uat/tvsrsa_live/download_OICL_pdf/N3hxVWZETTNqbnhNSE9Ka1I5YlJJTGpKQi9YRXViMU54cE5NRTZDZkt6bz0=')} style={{backgroundColor:'#942B48',color:'white',padding:'5px',cursor:'pointer',borderRadius:'5px'}}> Policy PDF</p>
+                 </div>
         </div>
       </div>
    {showLoader&&   <FullPageLoader/>}
    
-    </div>
+</div>
   );
 };
 

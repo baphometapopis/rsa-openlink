@@ -8,7 +8,7 @@ export const Header = () => {
         <img
             src={"https://www.tvsservice.com/assets/images/tvs.png"}
             alt="tvs-brand-logo"
-            className="HeaderLogo"
+            className="HeaderLogo2"
           />
 
         

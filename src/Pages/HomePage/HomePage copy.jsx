@@ -48,7 +48,7 @@ const HomePage = () => {
 const getVehicleDetails=async()=>{
   // BG4AG1838430 //"MD626BG47G1A42600"
   //USMASKLA7AJA1
-  const res = await makeApiCall(Api_Endpoints?.getDataByChassisNumber,'POST',{vehicle_detail:engineNumber,policy_type:'service'})
+  const res = await makeApiCall(Api_Endpoints?.getDataByChassisNumber,'POST',{vehicle_detail:engineNumber})
   if(res?.status){
     console.log(res)
     setPolicydata(res)
